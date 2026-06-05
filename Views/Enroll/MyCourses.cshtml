@@ -1,0 +1,78 @@
+@model IEnumerable<KtGiuaKy.Models.Enrollment>
+@{
+    ViewData["Title"] = "Học phần của tôi";
+}
+
+<div class="glass-panel p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1 class="h3 fw-extrabold text-light mb-1">Học phần đã đăng ký</h1>
+            <p class="text-secondary mb-0">Danh sách các học phần bạn đã ghi danh trong kỳ học này.</p>
+        </div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-premium-primary btn-sm d-flex align-items-center">
+            <i class="bi bi-journal-plus me-2"></i> Đăng ký thêm học phần
+        </a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="glass-panel p-5 text-center my-4">
+        <i class="bi bi-journal-x fs-1 text-secondary mb-3 d-block"></i>
+        <h3 class="h5 fw-bold text-light">Bạn chưa đăng ký học phần nào</h3>
+        <p class="text-secondary mb-4">Danh sách đăng ký học phần của bạn đang trống.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-premium-primary px-4">
+            Khám phá danh sách học phần
+        </a>
+    </div>
+}
+else
+{
+    <div class="glass-panel p-3">
+        <div class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Tên học phần</th>
+                        <th>Số tín chỉ</th>
+                        <th>Giảng viên</th>
+                        <th>Ngày đăng ký</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@(string.IsNullOrEmpty(item.Course?.Image) ? "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&auto=format&fit=crop&q=60" : item.Course.Image)" 
+                                     alt="@item.Course?.Name" class="rounded" style="width: 70px; height: 45px; object-fit: cover;"
+                                     onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&auto=format&fit=crop&q=60'" />
+                            </td>
+                            <td>
+                                <strong class="text-light">@item.Course?.Name</strong>
+                                <br />
+                                <span class="badge bg-secondary small mt-1">@item.Course?.Category?.Name</span>
+                            </td>
+                            <td>
+                                <span class="text-info">@item.Course?.Credits tín chỉ</span>
+                            </td>
+                            <td>@item.Course?.Lecturer</td>
+                            <td>@item.EnrollDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-center">
+                                <form asp-controller="Enroll" asp-action="Cancel" method="post">
+                                    <input type="hidden" name="courseId" value="@item.CourseId" />
+                                    <input type="hidden" name="returnUrl" value="@Url.Action("MyCourses", "Enroll")" />
+                                    <button type="submit" class="btn btn-premium-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn hủy đăng ký học phần này?')">
+                                        <i class="bi bi-trash-fill me-1"></i> Hủy đăng ký
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

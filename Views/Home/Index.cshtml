@@ -1,0 +1,167 @@
+@model IEnumerable<KtGiuaKy.Models.Course>
+@{
+    ViewData["Title"] = "Trang chủ - Cổng Đăng Ký Học Phần";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 0;
+    var enrolledIds = (List<int>)(ViewBag.EnrolledCourseIds ?? new List<int>());
+}
+
+<!-- Hero Section -->
+<div class="glass-panel p-5 mb-5 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%); pointer-events: none;"></div>
+    <h1 class="display-5 fw-extrabold mb-2" style="background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Hệ Thống Đăng Ký Học Phần Sinh Viên
+    </h1>
+    <p class="lead text-secondary max-w-xl mx-auto mb-4">
+        Khám phá các học phần chất lượng cao, đăng ký lớp học trực tuyến và quản lý tiến trình học tập của bạn một cách trực quan nhất.
+    </p>
+
+    <!-- Search Box (Câu 8) -->
+    <div class="col-md-7 mx-auto mt-2">
+        <form asp-controller="Home" asp-action="Index" method="get">
+            <div class="input-group search-container">
+                <span class="input-group-text bg-transparent border-0 text-secondary">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" name="searchString" value="@ViewBag.CurrentFilter" class="form-control search-input" placeholder="Tìm kiếm theo tên học phần..." />
+                @if (!string.IsNullOrEmpty(ViewBag.CurrentFilter))
+                {
+                    <a asp-action="Index" class="btn btn-outline-secondary border-0 text-secondary d-flex align-items-center me-2">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
+                }
+                <button type="submit" class="btn btn-premium-primary px-4">
+                    Tìm kiếm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Category Tagline / Title -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h4 fw-bold mb-0">
+        <i class="bi bi-grid-fill text-info me-2"></i> Danh sách học phần
+    </h2>
+    <span class="text-secondary fs-6">Hiển thị các học phần khả dụng</span>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="glass-panel p-5 text-center my-4">
+        <i class="bi bi-inbox fs-1 text-secondary mb-3 d-block"></i>
+        <h3 class="h5 fw-bold text-light">Không tìm thấy học phần nào</h3>
+        <p class="text-secondary mb-0">Vui lòng thử lại với từ khóa tìm kiếm khác hoặc kiểm tra lại sau.</p>
+    </div>
+}
+else
+{
+    <!-- Course Grid (Câu 1) -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var course in Model)
+        {
+            <div class="col">
+                <div class="glass-card h-100 d-flex flex-column">
+                    <!-- Course Image -->
+                    <div class="course-image-wrapper">
+                        <img src="@(string.IsNullOrEmpty(course.Image) ? "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=60" : course.Image)" 
+                             alt="@course.Name" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=60'" />
+                        <span class="course-badge">
+                            <i class="bi bi-bookmark-fill me-1"></i> @(course.Category?.Name ?? "Học phần")
+                        </span>
+                    </div>
+
+                    <!-- Course Content -->
+                    <div class="course-body d-flex flex-column flex-grow-1">
+                        <h3 class="course-title" title="@course.Name">@course.Name</h3>
+                        
+                        <div class="course-meta">
+                            <i class="bi bi-card-checklist"></i>
+                            <span>Số tín chỉ: <strong>@course.Credits</strong> tín chỉ</span>
+                        </div>
+                        <div class="course-meta mb-4">
+                            <i class="bi bi-person-badge"></i>
+                            <span>Giảng viên: @course.Lecturer</span>
+                        </div>
+
+                        <!-- Action Button (Câu 6) -->
+                        <div class="mt-auto">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                @if (User.IsInRole("Student"))
+                                {
+                                    @if (enrolledIds.Contains(course.Id))
+                                    {
+                                        <form asp-controller="Enroll" asp-action="Cancel" method="post">
+                                            <input type="hidden" name="courseId" value="@course.Id" />
+                                            <button type="submit" class="btn btn-premium-danger w-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-trash-fill me-2"></i> Hủy đăng ký
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Enroll" asp-action="Enroll" method="post">
+                                            <input type="hidden" name="courseId" value="@course.Id" />
+                                            <button type="submit" class="btn btn-premium-emerald w-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-plus-circle-fill me-2"></i> Đăng ký học phần
+                                            </button>
+                                        </form>
+                                    }
+                                }
+                                else if (User.IsInRole("Admin"))
+                                {
+                                    <div class="d-flex gap-2">
+                                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@course.Id" class="btn btn-outline-light w-50 btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Sửa
+                                        </a>
+                                        <a asp-controller="Admin" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-premium-danger w-50 btn-sm">
+                                            <i class="bi bi-trash me-1"></i> Xóa
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Home")" 
+                                   class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-lock-fill me-2"></i> Đăng nhập để đăng ký
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination Controls (Câu 1 - Phân trang 5 học phần) -->
+    @if (totalPages > 1)
+    {
+        <div class="custom-pagination">
+            <a asp-action="Index" 
+               asp-route-page="@(currentPage - 1)" 
+               asp-route-searchString="@ViewBag.CurrentFilter"
+               class="pagination-btn @(currentPage == 1 ? "disabled" : "")">
+                <i class="bi font-weight-bold bi-chevron-left"></i>
+            </a>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <a asp-action="Index" 
+                   asp-route-page="@i" 
+                   asp-route-searchString="@ViewBag.CurrentFilter"
+                   class="pagination-btn @(currentPage == i ? "active" : "")">
+                    @i
+                </a>
+            }
+
+            <a asp-action="Index" 
+               asp-route-page="@(currentPage + 1)" 
+               asp-route-searchString="@ViewBag.CurrentFilter"
+               class="pagination-btn @(currentPage == totalPages ? "disabled" : "")">
+                <i class="bi font-weight-bold bi-chevron-right"></i>
+            </a>
+        </div>
+    }
+}

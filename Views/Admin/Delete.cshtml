@@ -1,0 +1,51 @@
+@model KtGiuaKy.Models.Course
+@{
+    ViewData["Title"] = "Xóa học phần";
+}
+
+<div class="col-lg-7 mx-auto">
+    <div class="glass-panel p-4 mb-4 text-center">
+        <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-2 d-block"></i>
+        <h1 class="h3 fw-extrabold text-light mb-1">Xác nhận xóa học phần</h1>
+        <p class="text-secondary mb-0">Hành động này không thể hoàn tác. Các bản đăng ký liên quan sẽ bị xóa bỏ.</p>
+    </div>
+
+    <div class="glass-panel p-4">
+        <h3 class="h5 fw-bold text-light mb-4">Bạn có chắc chắn muốn xóa học phần sau?</h3>
+
+        <div class="row align-items-center mb-4">
+            <div class="col-md-4 mb-3 mb-md-0">
+                <img src="@(string.IsNullOrEmpty(Model.Image) ? "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&auto=format&fit=crop&q=60" : Model.Image)" 
+                     alt="@Model.Name" class="img-fluid rounded border border-light border-opacity-10"
+                     onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&auto=format&fit=crop&q=60'" />
+            </div>
+            <div class="col-md-8">
+                <dl class="row mb-0 text-secondary">
+                    <dt class="col-sm-4 text-light">Tên học phần:</dt>
+                    <dd class="col-sm-8"><strong class="text-white">@Model.Name</strong></dd>
+
+                    <dt class="col-sm-4 text-light">Số tín chỉ:</dt>
+                    <dd class="col-sm-8 text-info">@Model.Credits tín chỉ</dd>
+
+                    <dt class="col-sm-4 text-light">Giảng viên:</dt>
+                    <dd class="col-sm-8">@Model.Lecturer</dd>
+
+                    <dt class="col-sm-4 text-light">Danh mục:</dt>
+                    <dd class="col-sm-8">@Model.Category?.Name</dd>
+                </dl>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex gap-3">
+                <button type="submit" class="btn btn-premium-danger px-4">
+                    <i class="bi bi-trash-fill me-2"></i> Xác nhận xóa
+                </button>
+                <a asp-action="Index" class="btn btn-outline-light px-4">
+                    Hủy bỏ
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

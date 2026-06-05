@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Course Registration System (KtGiuaKy) - Premium CSS Stylesheet
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --accent-blue: #38bdf8;
+    --accent-indigo: #6366f1;
+    --accent-emerald: #10b981;
+    --accent-rose: #f43f5e;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: rgba(0, 0, 0, 0.25);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset & Body */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    border-radius: var(--radius-lg);
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 12px 24px -10px rgba(56, 189, 248, 0.15);
+}
+
+/* Header & Navbar */
+.custom-navbar {
+    background: rgba(15, 23, 42, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0.8rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.45rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand i {
+    -webkit-text-fill-color: var(--accent-blue);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-secondary) !important;
+    transition: var(--transition);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--text-primary) !important;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Buttons */
+.btn-premium-primary {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.4rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.3);
+}
+
+.btn-premium-primary:hover {
+    background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.4);
+    color: #fff;
+}
+
+.btn-premium-emerald {
+    background: linear-gradient(135deg, #34d399, var(--accent-emerald));
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.4rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+}
+
+.btn-premium-emerald:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
+    color: #fff;
+}
+
+.btn-premium-danger {
+    background: linear-gradient(135deg, #fb7185, var(--accent-rose));
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.4rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px 0 rgba(244, 63, 94, 0.3);
+}
+
+.btn-premium-danger:hover {
+    background: linear-gradient(135deg, #e11d48, #be123c);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px 0 rgba(244, 63, 94, 0.4);
+    color: #fff;
+}
+
+/* Home Course Grid */
+.course-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.course-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.glass-card:hover .course-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.course-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--accent-blue);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.course-body {
+    padding: 1.25rem;
+}
+
+.course-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+    height: 2.8rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.course-meta {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+.course-meta i {
+    color: var(--accent-blue);
+    width: 18px;
+}
+
+/* Dashboard Statistic Counters (Câu 10) */
+.stat-box {
+    padding: 1.8rem;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    opacity: 0.15;
+    color: #fff;
+}
+
+.stat-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* Search bar styling (Câu 8) */
+.search-container {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 0.4rem;
+}
+
+.search-input {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-primary) !important;
+    box-shadow: none !important;
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Pagination Control (Câu 1) */
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.pagination-btn:hover, .pagination-btn.active {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+    color: #fff;
+    border-color: transparent;
+}
+
+.pagination-btn.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Table styling for Admin & My Courses lists */
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    width: 100%;
+}
+
+.custom-table th {
+    background: rgba(15, 23, 42, 0.4);
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+.custom-table tbody tr {
+    background: rgba(30, 41, 59, 0.35);
+    transition: var(--transition);
+}
+
+.custom-table tbody tr:hover {
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.custom-table td {
+    border: none;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.custom-table td:first-child {
+    border-left: 1px solid var(--glass-border);
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+.custom-table td:last-child {
+    border-right: 1px solid var(--glass-border);
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+}
+
+/* Forms & Inputs */
+.custom-form-group label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+.custom-form-control {
+    background: rgba(15, 23, 42, 0.5) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0.65rem 1rem !important;
+    transition: var(--transition) !important;
+}
+
+.custom-form-control:focus {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15) !important;
+}
+
+.custom-form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+/* Main layouts & Footer */
+main {
+    flex: 1 0 auto;
+}
+
+.footer-nav {
+    background: rgba(15, 23, 42, 0.85);
+    border-top: 1px solid var(--glass-border);
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+/* Custom Auth Page Box */
+.auth-box {
+    max-width: 480px;
+    width: 100%;
+    margin: 4rem auto;
+    padding: 2.5rem;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+}
+
+/* Google external sign-in button */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #fff;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 1rem;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.btn-google:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+/* Custom notifications */
+.alert-custom {
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-custom-success {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.25);
+    color: #34d399;
+}
+
+.alert-custom-error {
+    background: rgba(244, 63, 94, 0.15);
+    border-color: rgba(244, 63, 94, 0.25);
+    color: #fb7185;
+}

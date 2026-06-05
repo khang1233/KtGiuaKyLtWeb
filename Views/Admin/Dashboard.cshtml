@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var enrollmentsByCategory = (Dictionary<string, int>)(ViewBag.EnrollmentsByCategory ?? new Dictionary<string, int>());
+    var popularCourses = ViewBag.PopularCourses as IEnumerable<dynamic> ?? new List<dynamic>();
+}
+
+<!-- Dashboard Header -->
+<div class="glass-panel p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1 class="h3 fw-extrabold text-light mb-1">Dashboard Thống Kê</h1>
+            <p class="text-secondary mb-0">Hệ thống giám sát quản lý khóa học và lượt sinh viên đăng ký.</p>
+        </div>
+        <a asp-action="Index" class="btn btn-premium-primary btn-sm d-flex align-items-center">
+            <i class="bi bi-gear-fill me-2"></i> Quản lý học phần
+        </a>
+    </div>
+</div>
+
+<!-- Statistical Boxes (Câu 10) -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="glass-panel stat-box bg-gradient-dark" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(30, 41, 59, 0.4) 100%); border-left: 4px solid var(--accent-blue);">
+            <div class="stat-icon"><i class="bi bi-journal-album"></i></div>
+            <div class="stat-title">Tổng số học phần</div>
+            <div class="stat-value">@ViewBag.TotalCourses</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-panel stat-box bg-gradient-dark" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(30, 41, 59, 0.4) 100%); border-left: 4px solid var(--accent-indigo);">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <div class="stat-title">Tổng số sinh viên</div>
+            <div class="stat-value">@ViewBag.TotalStudents</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-panel stat-box bg-gradient-dark" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(30, 41, 59, 0.4) 100%); border-left: 4px solid var(--accent-emerald);">
+            <div class="stat-icon"><i class="bi bi-cursor-fill"></i></div>
+            <div class="stat-title">Tổng số lượt đăng ký</div>
+            <div class="stat-value">@ViewBag.TotalEnrollments</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Chart / Distribution by Category -->
+    <div class="col-lg-5">
+        <div class="glass-panel p-4 h-100">
+            <h3 class="h5 fw-bold text-light mb-4"><i class="bi bi-pie-chart-fill text-info me-2"></i> Lượt đăng ký theo danh mục</h3>
+            
+            @if (!enrollmentsByCategory.Any())
+            {
+                <div class="text-center py-5 text-secondary">Chưa có lượt đăng ký nào để phân tích</div>
+            }
+            else
+            {
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var cat in enrollmentsByCategory)
+                    {
+                        // Calculate percentage stub
+                        int total = ViewBag.TotalEnrollments > 0 ? ViewBag.TotalEnrollments : 1;
+                        double percent = (double)cat.Value / total * 100;
+                        
+                        <div>
+                            <div class="d-flex justify-content-between text-secondary mb-1">
+                                <span class="fw-medium text-light">@cat.Key</span>
+                                <span>@cat.Value lượt (@percent.ToString("F1")%)</span>
+                            </div>
+                            <div class="progress" style="height: 10px; background-color: rgba(255, 255, 255, 0.05); border-radius: 5px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @percent%; border-radius: 5px;" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Top Registered Courses -->
+    <div class="col-lg-7">
+        <div class="glass-panel p-4 h-100">
+            <h3 class="h5 fw-bold text-light mb-4"><i class="bi bi-trophy-fill text-warning me-2"></i> Học phần được đăng ký nhiều nhất</h3>
+            
+            @if (!popularCourses.Any())
+            {
+                <div class="text-center py-5 text-secondary">Chưa có học phần nào được đăng ký</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table custom-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tên học phần</th>
+                                <th>Số tín chỉ</th>
+                                <th>Giảng viên</th>
+                                <th class="text-center">Số SV Đăng ký</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in popularCourses)
+                            {
+                                <tr>
+                                    <td><strong class="text-light">@course.Name</strong></td>
+                                    <td>@course.Credits tín chỉ</td>
+                                    <td>@course.Lecturer</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success rounded-pill px-3 py-2">@course.EnrollmentCount sinh viên</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

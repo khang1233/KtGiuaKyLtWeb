@@ -1,0 +1,72 @@
+@model KtGiuaKy.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="glass-panel auth-box">
+    <div class="auth-header">
+        <i class="bi bi-person-plus-fill text-info fs-1 d-block mb-2"></i>
+        <h2 class="auth-title">Đăng ký tài khoản</h2>
+        <p class="text-secondary mb-0">Tạo tài khoản Student để đăng ký học phần</p>
+    </div>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="form-group custom-form-group mb-3">
+            <label asp-for="Username"></label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 border-light border-opacity-10 text-secondary">
+                    <i class="bi bi-person"></i>
+                </span>
+                <input asp-for="Username" class="form-control custom-form-control border-start-0" placeholder="Nhập tên đăng nhập mong muốn..." />
+            </div>
+            <span asp-validation-for="Username" class="text-danger small"></span>
+        </div>
+
+        <div class="form-group custom-form-group mb-3">
+            <label asp-for="Email"></label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 border-light border-opacity-10 text-secondary">
+                    <i class="bi bi-envelope"></i>
+                </span>
+                <input asp-for="Email" class="form-control custom-form-control border-start-0" placeholder="Nhập địa chỉ email..." />
+            </div>
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+
+        <div class="form-group custom-form-group mb-3">
+            <label asp-for="Password"></label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 border-light border-opacity-10 text-secondary">
+                    <i class="bi bi-key"></i>
+                </span>
+                <input asp-for="Password" class="form-control custom-form-control border-start-0" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)..." />
+            </div>
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
+
+        <div class="form-group custom-form-group mb-4">
+            <label asp-for="ConfirmPassword"></label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 border-light border-opacity-10 text-secondary">
+                    <i class="bi bi-key-fill"></i>
+                </span>
+                <input asp-for="ConfirmPassword" class="form-control custom-form-control border-start-0" placeholder="Nhập lại mật khẩu..." />
+            </div>
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn btn-premium-primary w-100 mb-3">
+            <i class="bi bi-person-check-fill me-2"></i> Hoàn tất đăng ký
+        </button>
+    </form>
+
+    <div class="text-center mt-4">
+        <p class="text-secondary mb-0 small">Đã có tài khoản? <a asp-action="Login" class="text-info text-decoration-none fw-bold">Đăng nhập ngay</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
