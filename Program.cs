@@ -37,6 +37,16 @@ builder.Services.AddAuthentication()
         options.ClientSecret = (string.IsNullOrEmpty(clientSecret) || clientSecret == "YOUR_GOOGLE_CLIENT_SECRET") 
             ? "placeholder-client-secret" 
             : clientSecret;
+
+        // Force Google to show the account selection screen every time
+        options.Events = new Microsoft.AspNetCore.Authentication.OAuth.OAuthEvents
+        {
+            OnRedirectToAuthorizationEndpoint = context =>
+            {
+                context.Response.Redirect(context.RedirectUri + "&prompt=select_account");
+                return System.Threading.Tasks.Task.CompletedTask;
+            }
+        };
     });
 
 // 4. Configure Application Cookie redirection paths (Câu 4, 5)
