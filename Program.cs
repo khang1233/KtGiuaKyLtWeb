@@ -24,19 +24,20 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 // 3. Add Google External Authentication
-var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
-var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        var clientId = builder.Configuration["Authentication:Google:ClientId"];
+        var clientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 
-if (!string.IsNullOrEmpty(googleClientId) && !string.IsNullOrEmpty(googleClientSecret) &&
-    googleClientId != "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com")
-{
-    builder.Services.AddAuthentication()
-        .AddGoogle(options =>
-        {
-            options.ClientId = googleClientId;
-            options.ClientSecret = googleClientSecret;
-        });
-}
+        options.ClientId = (string.IsNullOrEmpty(clientId) || clientId == "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") 
+            ? "placeholder-client-id.apps.googleusercontent.com" 
+            : clientId;
+
+        options.ClientSecret = (string.IsNullOrEmpty(clientSecret) || clientSecret == "YOUR_GOOGLE_CLIENT_SECRET") 
+            ? "placeholder-client-secret" 
+            : clientSecret;
+    });
 
 // 4. Configure Application Cookie redirection paths (Câu 4, 5)
 builder.Services.ConfigureApplicationCookie(options =>
