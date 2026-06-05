@@ -16,6 +16,10 @@ Giao diện ứng dụng được thiết kế theo phong cách mờ kính **Gla
 *Bảng điều khiển cho phép theo dõi trực quan số liệu đăng ký học tập, phân bố tỉ lệ đăng ký theo danh mục bằng biểu đồ thanh tiến trình và bảng xếp hạng học phần được đăng ký nhiều nhất.*
 ![Admin Dashboard](wwwroot/images/dashboard_showcase.png)
 
+### 3. Đăng nhập Google thành công (Câu 9)
+*Màn hình hiển thị đúng thông tin chuyển hướng và chọn tài khoản từ Google Auth Platform sau khi người dùng nhấn nút Đăng nhập bằng Google.*
+![Google Login](wwwroot/images/google_showcase.png)
+
 ---
 
 ## 🛠️ Chi tiết các câu hỏi đã hoàn thiện
